@@ -3,7 +3,7 @@ Project Overview
 
 This is a production-style Banking Platform running entirely on Kubernetes.
 The platform allows users to open accounts, perform transfers, and view dashboards.
-
+##############################
 Architecture Diagram
           ┌───────────────┐
           │     User      │
@@ -28,6 +28,7 @@ Architecture Diagram
 │ PostgreSQL DB │           │ Deployment    │
 │ StatefulSet   │           │ Persistent PVC│
 └───────────────┘           └───────────────┘
+############################
 Project Structure
 app/
  ├─ banking-api/        # Node.js API
