@@ -29,6 +29,13 @@
                              │ StatefulSet + │
                              │ Persistent PVC│
                              └───────────────┘
+
+
+
+
+
+
+
 - app/banking-api → Node.js API
 - app/banking-dashboard → Dashboard HTML + nginx
 - k8s → Kubernetes YAML manifests
