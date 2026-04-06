@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🏦 Modern Banking Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; padding: 40px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .status-up { color: #2ecc71; font-weight: bold; }
+        .status-down { color: #e74c3c; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Banking Dashboard</h1>
+        <p>System Status: <span id="status" class="status-down">Checking...</span></p>
+        
+        <h3>Account Balances</h3>
+        <table id="accountTable">
+            <thead><tr><th>ID</th><th>Owner</th><th>Balance</th></tr></thead>
+            <tbody id="accountData"></tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchData() {
+            try {
+                // تذكر أن الـ Ingress يوجه /api/ للـ API
+                const res = await fetch('/api/accounts');
+                const data = await res.json();
+                
+                document.getElementById('status').innerText = '🟢 API Connected';
+                document.getElementById('status').className = 'status-up';
+                
+                const tableBody = document.getElementById('accountData');
+                tableBody.innerHTML = '';
+                data.forEach(acc => {
+                    tableBody.innerHTML += `<tr><td>${acc.id}</td><td>${acc.name}</td><td>$${acc.balance}</td></tr>`;
+                });
+            } catch (err) {
+                document.getElementById('status').innerText = '🔴 API Offline';
+                document.getElementById('status').className = 'status-down';
+            }
+        }
+        // تحديث كل 10 ثوانٍ كما هو مطلوب
+        setInterval(fetchData, 10000);
+        fetchData();
+    </script>
+</body>
+</html>
