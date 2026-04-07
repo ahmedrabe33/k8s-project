@@ -12,18 +12,31 @@ spec:
       labels:
         name: fluentd
     spec:
-      securityContext:
-        runAsUser: 0
-        runAsGroup: 0
       containers:
       - name: fluentd
-        image: fluent/fluentd-kubernetes-daemonset:v1.19-debian-syslog-1
+        image: fluent/fluentd:v1.16-debian-1
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
         volumeMounts:
           - name: varlog
             mountPath: /var/log
           - name: varlibdockercontainers
             mountPath: /var/lib/docker/containers
             readOnly: true
+      tolerations:
+      - key: "database-only"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      # دي اختيارية عشان يشتغل على الماستر لو حبيت
+      # - operator: "Exists" 
+      #   effect: "NoExecute"
+      # - operator: "Exists"
+      #   effect: "NoSchedule"
       volumes:
         - name: varlog
           hostPath:
